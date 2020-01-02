@@ -6,6 +6,7 @@ echo "================= Setting Up Bridge network on $interface_name ===========
 
 cp /etc/sysconfig/network-scripts/ifcfg-"$interface_name" /var/tmp/
 rm -rf /etc/sysconfig/network-scripts/ifcfg-"$interface_name"
+rm -rf /etc/sysconfig/network-scripts/ifcfg-br0
 
 cat > /etc/sysconfig/network-scripts/ifcfg-br0 << ENDOFFILE
 DEVICE=br0
@@ -52,7 +53,7 @@ cat > ~/isolated.xml << ENDOFFILE
 </network>
 ENDOFFILE
 
-virsh net-define isolated.xml
+virsh net-define ~/isolated.xml
 virsh net-autostart isolated
 virsh net-start isolated
 rm -rf ~/isolated.xml
@@ -85,7 +86,7 @@ cat > ~/vmpool.xml << ENDOFFILE
 </pool>
 ENDOFFILE
 
-virsh pool-define vmpool.xml
+virsh pool-define ~/vmpool.xml
 virsh pool-start vms
 virsh pool-autostart vms
 
@@ -115,7 +116,7 @@ cat > ~/isopool.xml << ENDOFFILE
 </pool>
 ENDOFFILE
 
-virsh pool-define isopool.xml
+virsh pool-define ~/isopool.xml
 virsh pool-start isos
 virsh pool-autostart isos
 rm -rf ~/isopool.xml
