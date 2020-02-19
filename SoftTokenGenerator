@@ -1,0 +1,35 @@
+#!/usr/bin/ruby
+
+require 'rotp'
+require 'openssl'
+
+
+def encrypt()
+  cipher = OpenSSL::Cipher.new('aes-256-cbc').encrypt
+  key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  plain_text = ''                   # <<========= Enter original password here while encrypting
+  cipher.key = key
+  s = cipher.update(plain_text) + cipher.final
+
+  s.unpack('H*')[0].upcase
+end
+
+def decrypt()
+  cipher_text = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' # <<======== encrypted password(PIN)
+  key = 'xxxxxxxxxxxxxxxxxxxxxxxxxx'
+  cipher = OpenSSL::Cipher.new('aes-256-cbc').decrypt
+  cipher.key = key
+  s = [cipher_text].pack("H*").unpack("C*").pack("c*")
+
+  cipher.update(s) + cipher.final
+end
+
+
+#password = gets.chomp
+#puts encrypt()
+#puts decrypt()
+
+totp = ROTP::TOTP.new("xxxxxxxxxxxxxxx", issuer: "xxxxxxxxxxxxxx")
+#puts decrypt() + totp.now 
+system("echo -n #{decrypt() + totp.now} | xclip -selection clipboard")
+
