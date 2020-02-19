@@ -24,19 +24,19 @@ def doInitialSetup
 	cmd = "wget http://10.74.255.136/manifest.zip"
 	runCommand("Downloading Manifest",cmd)
 
-	cmd = "hammer -u admin -p redhat subscription upload --organization RedHat --file ./manifest.zip"
+	cmd = "hammer subscription upload --organization RedHat --file ./manifest.zip"
 	runCommand("Uploading Manifest",cmd)
 
-	cmd = "hammer -u admin -p redhat subscription refresh-manifest --organization RedHat"
+	cmd = "hammer subscription refresh-manifest --organization RedHat"
 	runCommand("Refreshing Manifest",cmd)
 
-	cmd = 'hammer -u admin -p redhat repository-set enable --organization RedHat --product "Red Hat Enterprise Linux Server" --basearch "x86_64" --releasever "7Server" --name "Red Hat Enterprise Linux 7 Server (RPMs)"'
+	cmd = 'hammer repository-set enable --organization RedHat --product "Red Hat Enterprise Linux Server" --basearch "x86_64" --releasever "7Server" --name "Red Hat Enterprise Linux 7 Server (RPMs)"'
 	runCommand("Enabling 7Server repository",cmd)
 
-	cmd = 'hammer -u admin -p redhat repository-set enable --organization RedHat --product "Red Hat Enterprise Linux Server" --basearch "x86_64" --releasever "7Server" --name "Red Hat Satellite Tools 6.6 (for RHEL 7 Server) (RPMs)"'
+	cmd = 'hammer repository-set enable --organization RedHat --product "Red Hat Enterprise Linux Server" --basearch "x86_64" --releasever "7Server" --name "Red Hat Satellite Tools 6.6 (for RHEL 7 Server) (RPMs)"'
 	runCommand("Enabling 6.6 tools repository",cmd)
 
-	cmd = 'hammer -u admin -p redhat repository-set enable --organization RedHat --product "Red Hat Enterprise Linux Server" --basearch "x86_64" --releasever "7.6" --name "Red Hat Enterprise Linux 7 Server (Kickstart)"'
+	cmd = 'hammer repository-set enable --organization RedHat --product "Red Hat Enterprise Linux Server" --basearch "x86_64" --releasever "7.6" --name "Red Hat Enterprise Linux 7 Server (Kickstart)"'
 	runCommand("Enabling 7.6 Kickstart repository",cmd)
 
 	cmd = 'hammer repository synchronize --name "Red Hat Enterprise Linux 7 Server Kickstart x86_64 7.6" --organization RedHat --product "Red Hat Enterprise Linux Server" --async'
