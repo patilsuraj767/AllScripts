@@ -13,12 +13,12 @@ end
 
 def runCommand(message,cmd)
   $logger.info "#{message} \n - #{cmd}"
-  #system(cmd)
+  system(cmd)
 end
 
 def doInitialSetup
 
-	cmd 'satellite-installer --scenario satellite --foreman-initial-organization "RedHat" --foreman-initial-location "Pune" --foreman-initial-admin-username admin --foreman-initial-admin-password redhat'
+	cmd = 'satellite-installer --scenario satellite --foreman-initial-organization "RedHat" --foreman-initial-location "Pune" --foreman-initial-admin-username admin --foreman-initial-admin-password redhat'
  	runCommand("Running satellite installer",cmd)
 
 	cmd = "wget http://10.74.255.136/manifest.zip"
@@ -66,7 +66,7 @@ def doProvisioningSetup
 	cmd = "hammer subnet create --boot-mode DHCP --dhcp-id 1 --discovery-id 1 --dns-id 1 --dns-primary #{satelliteip} --domain-ids 1 --from #{satelliteip[/\w*.\w*.\w*/]}.100 --to #{satelliteip[/\w*.\w*.\w*/]}.200 --gateway #{getwayIP} --ipam DHCP --location-id 2 --mask 255.255.255.0 --network #{satelliteip[/\w*.\w*.\w*/] + ".0"} --organization-id 1 --tftp-id 1 --name libvirt"
 	runCommand("Creating Subnet",cmd)
 
-	cmd = "compute-resource create --name VMware --organizations RedHat --password QweMnb@123 --user 'suraj@gsslab.pnq2.redhat.com' --set-console-password false --server 'sysvcs.gsslab.pnq2.redhat.com' --provider 'Vmware' --datacenter 'T-Suraj' --location Pune --caching-enabled false"
+	cmd = "hammer compute-resource create --name VMware --organizations RedHat --password QweMnb@123 --user 'suraj@gsslab.pnq2.redhat.com' --set-console-password false --server 'sysvcs.gsslab.pnq2.redhat.com' --provider 'Vmware' --datacenter 'T-Suraj' --location Pune --caching-enabled false"
 	runCommand("Creating compute resource of personal vmware",cmd)
 end
 
